@@ -1,5 +1,6 @@
 import org.apache.pdfbox.multipdf.PDFMergerUtility;
 import java.io.IOException;
+import java.util.Scanner;
 
 public class PDFMerger {
 
@@ -18,14 +19,30 @@ public class PDFMerger {
     }
 
     public static void main(String[] args) {
-        String[] pdfFiles = {"file1.pdf", "file2.pdf", "file3.pdf"};
-        String outputFile = "merged_output.pdf";
-        
+        Scanner scanner = new Scanner(System.in);
+
+        System.out.print("Enter the number of PDF files to merge: ");
+        int numFiles = scanner.nextInt();
+        scanner.nextLine(); // consume newline
+
+        String[] pdfFiles = new String[numFiles];
+
+        // Get filenames from user
+        for (int i = 0; i < numFiles; i++) {
+            System.out.print("Enter the path for PDF file " + (i + 1) + ": ");
+            pdfFiles[i] = scanner.nextLine();
+        }
+
+        System.out.print("Enter the output file name (with .pdf extension): ");
+        String outputFile = scanner.nextLine();
+
         try {
             mergePDFs(pdfFiles, outputFile);
         } catch (IOException e) {
             System.err.println("Error merging PDFs: " + e.getMessage());
         }
+
+        scanner.close();
     }
 }
 
