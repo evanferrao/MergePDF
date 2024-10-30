@@ -17,14 +17,17 @@ public class PDFMergerGUI extends JFrame {
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLayout(new BorderLayout());
 
+        // Panel for PDF list and buttons
+        JPanel topPanel = new JPanel();
+        topPanel.setLayout(new BorderLayout());
+
         pdfListModel = new DefaultListModel<>();
         JList<String> pdfList = new JList<>(pdfListModel);
         JScrollPane scrollPane = new JScrollPane(pdfList);
-        add(scrollPane, BorderLayout.CENTER);
+        topPanel.add(scrollPane, BorderLayout.CENTER);
 
         JButton addButton = new JButton("Add PDF");
         JButton removeButton = new JButton("Remove Selected");
-        JButton mergeButton = new JButton("Merge PDFs");
 
         // Adding PDF file dialog
         addButton.addActionListener(e -> addPDFFile());
@@ -37,21 +40,26 @@ public class PDFMergerGUI extends JFrame {
             }
         });
 
-        // Merging PDFs
-        mergeButton.addActionListener(e -> mergePDFs());
-
         JPanel buttonPanel = new JPanel();
         buttonPanel.add(addButton);
         buttonPanel.add(removeButton);
-        buttonPanel.add(mergeButton);
-        add(buttonPanel, BorderLayout.SOUTH);
+        topPanel.add(buttonPanel, BorderLayout.SOUTH);
 
-        // Panel for output filename
+        // Panel for output filename and merge button
         JPanel bottomPanel = new JPanel();
+        bottomPanel.setLayout(new FlowLayout());
+
         outputFileNameField = new JTextField(20);
         outputFileNameField.setText("merged_output.pdf");
+
+        JButton mergeButton = new JButton("Merge PDFs");
+        mergeButton.addActionListener(e -> mergePDFs());
+
         bottomPanel.add(new JLabel("Output file:"));
         bottomPanel.add(outputFileNameField);
+        bottomPanel.add(mergeButton);
+
+        add(topPanel, BorderLayout.CENTER);
         add(bottomPanel, BorderLayout.SOUTH);
     }
 
@@ -104,4 +112,3 @@ public class PDFMergerGUI extends JFrame {
         });
     }
 }
-
