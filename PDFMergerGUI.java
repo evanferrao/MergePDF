@@ -1,11 +1,10 @@
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 
 public class PDFMergerGUI extends JFrame {
 
     private DefaultListModel<String> pdfListModel;
+    private JTextField outputFileNameField;
 
     public PDFMergerGUI() {
         setTitle("PDF Merger");
@@ -36,6 +35,14 @@ public class PDFMergerGUI extends JFrame {
         buttonPanel.add(addButton);
         buttonPanel.add(removeButton);
         add(buttonPanel, BorderLayout.SOUTH);
+
+        // Panel for output filename
+        JPanel bottomPanel = new JPanel();
+        outputFileNameField = new JTextField(20);
+        outputFileNameField.setText("merged_output.pdf");
+        bottomPanel.add(new JLabel("Output file:"));
+        bottomPanel.add(outputFileNameField);
+        add(bottomPanel, BorderLayout.SOUTH);
     }
 
     private void addPDFFile() {
