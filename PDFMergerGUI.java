@@ -56,11 +56,45 @@ public class PDFMergerGUI extends JFrame {
     }
 
     private void addPDFFile() {
-        // Implement file chooser here
+        JFileChooser fileChooser = new JFileChooser();
+        fileChooser.setMultiSelectionEnabled(true);
+        fileChooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
+
+        int option = fileChooser.showOpenDialog(this);
+        if (option == JFileChooser.APPROVE_OPTION) {
+            File[] selectedFiles = fileChooser.getSelectedFiles();
+            for (File file : selectedFiles) {
+                if (file.getName().endsWith(".pdf")) {
+                    pdfListModel.addElement(file.getAbsolutePath());
+                } else {
+                    JOptionPane.showMessageDialog(this, "Only PDF files are allowed.", "Error", JOptionPane.ERROR_MESSAGE);
+                }
+            }
+        }
     }
 
     private void mergePDFs() {
-        // Implement merging functionality here
+        PDFMergerUtility pdfMerger = new PDFMergerUtility();
+        String outputFile = outputFileNameField.getText();
+
+        for (int i = 0; i < pdfListModel.size(); i++) {
+            try {
+                pdfMerger.addSource(pdfListModel.getElementAt(i));
+            } catch (IOException e) { // Catch IOException, including FileNotFoundException
+                JOptionPane.showMessageDialog(this, "Error with file: " + pdfListModel.getElementAt(i) + "\n" + e.getMessage(),
+                                              "File Error", JOptionPane.ERROR_MESSAGE);
+                return; // Exit if there's an error with any file
+            }
+        }
+
+        pdfMerger.setDestinationFileName(outputFile);
+
+        try {
+            pdfMerger.mergeDocuments(null);
+            JOptionPane.showMessageDialog(this, "PDFs merged successfully into " + outputFile, "Success", JOptionPane.INFORMATION_MESSAGE);
+        } catch (IOException e) {
+            JOptionPane.showMessageDialog(this, "Error merging PDFs: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+        }
     }
 
     public static void main(String[] args) {
