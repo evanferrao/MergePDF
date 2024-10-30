@@ -1,5 +1,9 @@
+import org.apache.pdfbox.multipdf.PDFMergerUtility;
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.io.IOException;
 
 public class PDFMergerGUI extends JFrame {
 
@@ -19,6 +23,7 @@ public class PDFMergerGUI extends JFrame {
 
         JButton addButton = new JButton("Add PDF");
         JButton removeButton = new JButton("Remove Selected");
+        JButton mergeButton = new JButton("Merge PDFs");
 
         // Adding PDF file dialog
         addButton.addActionListener(e -> addPDFFile());
@@ -31,9 +36,13 @@ public class PDFMergerGUI extends JFrame {
             }
         });
 
+        // Merging PDFs
+        mergeButton.addActionListener(e -> mergePDFs());
+
         JPanel buttonPanel = new JPanel();
         buttonPanel.add(addButton);
         buttonPanel.add(removeButton);
+        buttonPanel.add(mergeButton);
         add(buttonPanel, BorderLayout.SOUTH);
 
         // Panel for output filename
@@ -47,6 +56,10 @@ public class PDFMergerGUI extends JFrame {
 
     private void addPDFFile() {
         // Implement file chooser here
+    }
+
+    private void mergePDFs() {
+        // Implement merging functionality here
     }
 
     public static void main(String[] args) {
